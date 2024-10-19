@@ -30,22 +30,22 @@ jobs:
     - name: "Start Building (x86_64)"
       run: |
         ./build-all.sh x86_64
-        mv logs /data/data/com.micewine.emu/files/usr
+        mv logs /data/data/com.vectras.winux/files/usr
         
-    - name: "Create RootFS File (x86_64)"
+    - name: "Create Bootstrap File (x86_64)"
       run: |
         ./create-rootfs.sh x86_64
 
-    - name: "Clean x86_64 RootFS"
+    - name: "Clean x86_64 Bootstrap"
       run: |
-        sudo rm -rf /data/data/com.micewine.emu/files/usr workdir rootfs
+        sudo rm -rf /data/data/com.vectras.winux/files/usr workdir rootfs
 
     - name: "Start Building (aarch64)"
       run: |
         ./build-all.sh aarch64
-        mv logs /data/data/com.micewine.emu/files/usr
+        mv logs /data/data/com.vectras.winux/files/usr
 
-    - name: "Create RootFS File (aarch64)"
+    - name: "Create Bootstrap File (aarch64)"
       run: |
         ./create-rootfs.sh aarch64
 
@@ -58,5 +58,5 @@ jobs:
         name: "MiceWine RootFS ${{ github.sha }}"
         tag_name: ${{ env.SHORT_SHA }}
         files: |
-            /home/runner/MiceWine-RootFS-aarch64.zip
-            /home/runner/MiceWine-RootFS-x86_64.zip
+            /home/runner/Winux-Bootstrap-aarch64.zip
+            /home/runner/Winux-Bootstrap-x86_64.zip
