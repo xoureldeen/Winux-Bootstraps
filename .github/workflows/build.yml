@@ -1,0 +1,62 @@
+name: Build and Release MiceWine RootFS
+
+on:
+  push:
+    branches: "*"
+  pull_request:
+    branches: "*"
+
+jobs:
+  build:
+
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: "Environment Preparation"
+      run: |
+        sudo apt update
+        sudo apt install -y python3 python3-pip cmake wget git p7zip build-essential pkg-config xmlto fop xsltproc llvm autoconf libxml-parser-perl bison flex glslang-tools
+        pip3 install mako meson ninja docutils
+        sudo ln -sf ~/.local/bin/meson /usr/bin/meson
+
+    - name: "Setup Basic Android x86_64 Runtime Environment"
+      run: |
+        git clone https://github.com/termux/termux-docker.git
+        sudo cp -rf termux-docker/system/x86 /system
+        sudo chown -R $(whoami):$(whoami) /system
+        sudo chmod 755 -R /system
+    
+    - name: "Start Building (x86_64)"
+      run: |
+        ./build-all.sh x86_64
+        mv logs /data/data/com.micewine.emu/files/usr
+        
+    - name: "Create RootFS File (x86_64)"
+      run: |
+        ./create-rootfs.sh x86_64
+
+    - name: "Clean x86_64 RootFS"
+      run: |
+        sudo rm -rf /data/data/com.micewine.emu/files/usr workdir rootfs
+
+    - name: "Start Building (aarch64)"
+      run: |
+        ./build-all.sh aarch64
+        mv logs /data/data/com.micewine.emu/files/usr
+
+    - name: "Create RootFS File (aarch64)"
+      run: |
+        ./create-rootfs.sh aarch64
+
+    - name: "Get Short SHA"
+      run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          
+    - name: "Create Release"
+      uses: softprops/action-gh-release@v2
+      with:
+        name: "MiceWine RootFS ${{ github.sha }}"
+        tag_name: ${{ env.SHORT_SHA }}
+        files: |
+            /home/runner/MiceWine-RootFS-aarch64.zip
+            /home/runner/MiceWine-RootFS-x86_64.zip
