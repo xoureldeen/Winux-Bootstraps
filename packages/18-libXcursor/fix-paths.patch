@@ -1,0 +1,16 @@
+--- 18-libXcursor/src/library.c	2022-04-03 14:00:22.000000000 -0300
++++ 18-libXcursor.mod/src/library.c	2024-03-02 18:30:38.118742000 -0300
+@@ -25,11 +25,11 @@
+ #include <string.h>
+ 
+ #ifndef ICONDIR
+-#define ICONDIR "/usr/X11R6/lib/X11/icons"
++#define ICONDIR "/data/data/com.vectras.winux/files/usr/X11R6/lib/X11/icons"
+ #endif
+ 
+ #ifndef XCURSORPATH
+-#define XCURSORPATH "~/.local/share/icons:~/.icons:/usr/share/icons:/usr/share/pixmaps:"ICONDIR
++#define XCURSORPATH "~/.local/share/icons:~/.icons:/data/data/com.vectras.winux/files/usr/share/icons:/data/data/com.vectras.winux/files/usr/share/pixmaps:"ICONDIR
+ #endif
+ 
+ typedef struct XcursorInherit {
