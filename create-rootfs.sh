@@ -54,10 +54,10 @@ esac
 symlink2sh "$PREFIX"
 
 case $ARGS in *"--clean-all"*)
-  export ROOTFS_PACKAGE="Winux-RootFS-Minimal$ZIPFILE_APPEND"
+  export ROOTFS_PACKAGE="Winux-Bootstrap-Minimal$ZIPFILE_APPEND"
   ;;
   *)
-  export ROOTFS_PACKAGE="Winux-RootFS$ZIPFILE_APPEND"
+  export ROOTFS_PACKAGE="Winux-Bootstrap$ZIPFILE_APPEND"
 esac
 
 ./external-files-download-path.sh

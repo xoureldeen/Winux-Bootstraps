@@ -1,4 +1,4 @@
-name: Build and Release MiceWine RootFS
+name: Build Winux Bootstraps
 
 on:
   push:
@@ -27,19 +27,6 @@ jobs:
         sudo chown -R $(whoami):$(whoami) /system
         sudo chmod 755 -R /system
     
-    - name: "Start Building (x86_64)"
-      run: |
-        ./build-all.sh x86_64
-        mv logs /data/data/com.vectras.winux/files/usr
-        
-    - name: "Create Bootstrap File (x86_64)"
-      run: |
-        ./create-rootfs.sh x86_64
-
-    - name: "Clean x86_64 Bootstrap"
-      run: |
-        sudo rm -rf /data/data/com.vectras.winux/files/usr workdir rootfs
-
     - name: "Start Building (aarch64)"
       run: |
         ./build-all.sh aarch64
@@ -55,8 +42,7 @@ jobs:
     - name: "Create Release"
       uses: softprops/action-gh-release@v2
       with:
-        name: "MiceWine RootFS ${{ github.sha }}"
+        name: "Winux bootstraps ${{ github.sha }}"
         tag_name: ${{ env.SHORT_SHA }}
         files: |
             /home/runner/Winux-Bootstrap-aarch64.zip
-            /home/runner/Winux-Bootstrap-x86_64.zip
