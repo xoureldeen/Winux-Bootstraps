@@ -1,4 +1,4 @@
-name: Build Winux Bootstraps
+name: Build Winux Bootstraps Aarch64
 
 on:
   push:
