@@ -8,11 +8,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v4
+
     - name: "Environment Preparation"
       run: |
         sudo apt update
@@ -38,11 +38,9 @@ jobs:
 
     - name: "Get Short SHA"
       run: echo "SHORT_SHA=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
-          
-    - name: "Create Release"
-      uses: softprops/action-gh-release@v2
+
+    - name: "Upload Artifacts"
+      uses: actions/upload-artifact@v3
       with:
-        name: "Winux bootstraps ${{ github.sha }}"
-        tag_name: ${{ env.SHORT_SHA }}
-        files: |
-            /home/runner/Winux-Bootstrap-aarch64.zip
+        name: "Winux-Bootstrap"
+        path: /home/runner/Winux-Bootstrap-aarch64.zip
